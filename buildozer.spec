@@ -17,7 +17,7 @@ presplash.filename = splash.png
 android.gradle_dependencies = 'androidx.core:core:1.9.0'
 android.sdk_path = /home/runner/android-sdk
 android.build_tools_version = 37.0.0
-android.ndk_path = /home/runner/android-ndk-r23c
+android.ndk = 25c
 android.debug = True
 
 [buildozer]
