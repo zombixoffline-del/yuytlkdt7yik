@@ -6,10 +6,10 @@ title = Zombix OFFline
 # Пакетное имя
 package.name = zombixoffline
 
-# Домен + пакет (обратный DNS)
+# Домен + пакет
 package.domain = org.example
 
-# Версия приложения
+# Версия
 version = 2.3
 
 # Требуемая версия Android SDK
@@ -21,48 +21,40 @@ android.minapi = 21
 # Разрешения
 android.permissions = INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK
 
-# Путь к исходникам
+# Основной файл
 source.dir = .
 
 # Главный скрипт
 main.py = main.py
 
-# Зависимости Python
-requirements = python3, pygame, opencv-python, numpy
+# Требуемые библиотеки
+requirements = python3, pygame, opencv-python, numpy, json, random, math, sys, os
 
-# Ориентация экрана
+# Ориентация
 android.orientation = both
 
-# Версия OpenGL
+# OpenGL
 android.gles_version = 2
 
-# Иконка и заставка (замените на свои файлы, если есть)
+# Иконка
 icon.filename = icon.png
+
+# Заставка
 presplash.filename = splash.png
 
-# Путь к Android SDK (будет использоваться на GitHub Actions)
-android.sdk_path = /home/runner/android-sdk
+# Дополнительные зависимости Gradle
+android.gradle_dependencies = 'androidx.core:core:1.9.0'
 
-# Версия build-tools
+# Путь к SDK (указываем, чтобы Buildozer не скачивал свой)
+android.sdk_path = /home/runner/android-sdk
 android.build_tools_version = 37.0.0
 
-# Отключаем автоматическую загрузку SDK
-android.skip_update = False
-
-# Дополнительные настройки
-android.gradle_dependencies = 'androidx.core:core:1.9.0'
-android.gradle_args = --no-daemon
-android.ignore_activities = True
+# Режим отладки (можно убрать)
 android.debug = True
 
 [buildozer]
 
-# Логирование
 log_level = 2
-
-# Папки сборки
 build_dir = ./build
 cache_dir = ./cache
-
-# Не использовать sudo
 warn_on_root = 1
