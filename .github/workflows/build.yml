@@ -52,10 +52,19 @@ jobs:
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
           echo "PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
 
+      - name: Install Android NDK r23c (compatible with libffi)
+        run: |
+          cd /home/runner
+          wget -q https://dl.google.com/android/repository/android-ndk-r23c-linux.zip
+          unzip -q android-ndk-r23c-linux.zip
+          echo "ANDROID_NDK_ROOT=/home/runner/android-ndk-r23c" >> $GITHUB_ENV
+          echo "PATH=/home/runner/android-ndk-r23c/bin:$PATH" >> $GITHUB_ENV
+
       - name: Build APK with Buildozer
         run: |
           export ANDROID_SDK_ROOT=/home/runner/android-sdk
-          export PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
+          export ANDROID_NDK_ROOT=/home/runner/android-ndk-r23c
+          export PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_NDK_ROOT/bin:$PATH
           buildozer android debug deploy run
 
       - name: Upload APK
