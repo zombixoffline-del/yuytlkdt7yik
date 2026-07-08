@@ -40,13 +40,12 @@ jobs:
           mkdir -p $ANDROID_SDK_ROOT
           cd $ANDROID_SDK_ROOT
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O sdk-tools.zip
-          unzip -q sdk-tools.zip
+          unzip -q sdk-tools.zip -d temp
           mkdir -p cmdline-tools
-          mv cmdline-tools cmdline-tools/latest || true
+          mv temp/cmdline-tools cmdline-tools/latest
+          rmdir temp
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
-          # Принимаем все лицензии автоматически
           yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          # Устанавливаем нужные компоненты
           sdkmanager "build-tools;37.0.0" "platform-tools" "platforms;android-30"
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
           echo "PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
