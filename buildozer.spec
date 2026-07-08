@@ -21,6 +21,9 @@ android.minapi = 21
 # Разрешения
 android.permissions = INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK
 
+# Путь к исходникам (текущая папка)
+source.dir = .
+
 # Главный скрипт
 main.py = main.py
 
