@@ -1,15 +1,15 @@
 [app]
 
-# Название приложения (будет отображаться на устройстве)
+# Название приложения
 title = Zombix OFFline
 
-# Пакетное имя (уникальный идентификатор)
+# Пакетное имя
 package.name = zombixoffline
 
 # Домен + пакет (обратный DNS)
 package.domain = org.example
 
-# Версия приложения (целое число)
+# Версия приложения
 version = 2.3
 
 # Требуемая версия Android SDK
@@ -18,40 +18,41 @@ android.api = 30
 # Минимальная версия Android
 android.minapi = 21
 
-# Требуемые разрешения (камера, интернет и т.д.)
+# Разрешения
 android.permissions = INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK
 
-# Основной файл игры (точка входа)
+# Путь к исходникам
 source.dir = .
 
-# Главный скрипт (должен называться main.py, но можно указать своё)
+# Главный скрипт
 main.py = main.py
 
-# Требуемые Python-библиотеки (указываем pygame и другие)
-requirements = python3, pygame, opencv-python, numpy, json, random, math, sys, os
+# Зависимости Python
+requirements = python3, pygame, opencv-python, numpy
 
-# Ориентация экрана (portrait / landscape / both)
+# Ориентация экрана
 android.orientation = both
 
-# Разрешение на использование OpenGL ES 2.0
+# Версия OpenGL
 android.gles_version = 2
 
-# Иконка приложения (путь к PNG 512x512)
+# Иконка и заставка (замените на свои файлы, если есть)
 icon.filename = icon.png
-
-# Заставка (можно указать)
 presplash.filename = splash.png
 
-# Включаем поддержку сенсорного экрана
+# Путь к Android SDK (будет использоваться на GitHub Actions)
+android.sdk_path = /home/runner/android-sdk
+
+# Версия build-tools
+android.build_tools_version = 37.0.0
+
+# Отключаем автоматическую загрузку SDK
+android.skip_update = False
+
+# Дополнительные настройки
 android.gradle_dependencies = 'androidx.core:core:1.9.0'
-
-# Дополнительные аргументы для Gradle
 android.gradle_args = --no-daemon
-
-# Отключаем лишние разрешения
 android.ignore_activities = True
-
-# Включаем режим отладки (можно убрать перед релизом)
 android.debug = True
 
 [buildozer]
@@ -59,11 +60,9 @@ android.debug = True
 # Логирование
 log_level = 2
 
-# Папка для сборки
+# Папки сборки
 build_dir = ./build
-
-# Кэш скачанных пакетов
 cache_dir = ./cache
 
-# Показывать подробный вывод
+# Не использовать sudo
 warn_on_root = 1
