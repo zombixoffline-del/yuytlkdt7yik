@@ -5,7 +5,6 @@ package.domain = org.example
 version = 2.3
 android.api = 30
 android.minapi = 21
-android.ndk_api = 21
 android.permissions = INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK
 source.dir = .
 main.py = main.py
@@ -14,10 +13,7 @@ android.orientation = both
 android.gles_version = 2
 icon.filename = icon.png
 presplash.filename = splash.png
-android.gradle_dependencies = 'androidx.core:core:1.9.0'
-android.sdk_path = /home/runner/android-sdk
-android.build_tools_version = 37.0.0
-android.ndk_path = /home/runner/android-ndk-r23c
+android.ndk = 23c
 android.debug = True
 
 [buildozer]
