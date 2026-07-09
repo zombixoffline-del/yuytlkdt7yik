@@ -9,7 +9,7 @@ android.ndk_api = 21
 android.permissions = INTERNET, ACCESS_NETWORK_STATE, WAKE_LOCK
 source.dir = .
 main.py = main.py
-requirements = python3, pygame, json, random, math, sys, os
+requirements = python3, pygame, sdl2, sdl2_image, sdl2_mixer, sdl2_ttf, json, random, math, sys, os
 android.orientation = both
 android.gles_version = 2
 icon.filename = icon.png
@@ -21,7 +21,7 @@ android.ndk = 25c
 android.debug = True
 
 [buildozer]
-log_level = 2
+log_level = 3
 build_dir = ./build
 cache_dir = ./cache
 warn_on_root = 1
