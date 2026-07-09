@@ -3,8 +3,6 @@ name: Build APK
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -12,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -22,41 +19,45 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            git zip unzip openjdk-17-jdk \
+          sudo apt update
+          sudo apt install -y git zip unzip openjdk-17-jdk \
             python3-pip autoconf libtool pkg-config zlib1g-dev \
-            libncurses5-dev libncursesw5-dev cmake \
-            libffi-dev libssl-dev
+            libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
 
-      - name: Install Python dependencies
+      - name: Install buildozer
         run: |
           pip install --upgrade pip
           pip install buildozer cython
 
-      - name: Install Android SDK and accept licenses
+      - name: Install Android SDK (only tools)
         run: |
-          export ANDROID_SDK_ROOT=/home/runner/android-sdk
+          export ANDROID_SDK_ROOT=$HOME/android-sdk
           mkdir -p $ANDROID_SDK_ROOT
           cd $ANDROID_SDK_ROOT
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O sdk-tools.zip
           unzip -q sdk-tools.zip
           mkdir -p tools
-          if [ -d "cmdline-tools" ]; then
-            mv cmdline-tools/* tools/ 2>/dev/null || true
-            rmdir cmdline-tools 2>/dev/null || true
-          fi
+          mv cmdline-tools/* tools/ 2>/dev/null || true
           export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH
           yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses > /dev/null 2>&1 || true
           sdkmanager --sdk_root=$ANDROID_SDK_ROOT "build-tools;37.0.0" "platform-tools" "platforms;android-30"
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
           echo "PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH" >> $GITHUB_ENV
 
-      - name: Build APK with Buildozer
+      - name: Download NDK 23c (compatible with libffi)
         run: |
-          export ANDROID_SDK_ROOT=/home/runner/android-sdk
-          export PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
-          buildozer --verbose android debug deploy run
+          cd $HOME
+          wget -q https://dl.google.com/android/repository/android-ndk-r23c-linux.zip
+          unzip -q android-ndk-r23c-linux.zip
+          echo "ANDROID_NDK_ROOT=$HOME/android-ndk-r23c" >> $GITHUB_ENV
+          echo "PATH=$HOME/android-ndk-r23c/bin:$PATH" >> $GITHUB_ENV
+
+      - name: Build APK
+        run: |
+          export ANDROID_SDK_ROOT=$HOME/android-sdk
+          export ANDROID_NDK_ROOT=$HOME/android-ndk-r23c
+          export PATH=$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_NDK_ROOT/bin:$PATH
+          buildozer android debug deploy run
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
